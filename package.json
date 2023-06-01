@@ -9,12 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tabler/icons-react": "^2.20.0",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
-    "next": "13.4.4",
+    "bcrypt-ts": "^3.0.1",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.2.2",
+    "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.0.4"
+    "sass": "^1.62.1",
+    "typescript": "5.0.4",
+    "uuid": "^9.0.0"
   }
 }
