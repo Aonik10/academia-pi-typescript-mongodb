@@ -13,10 +13,9 @@ export const metadata = {
 
 interface RootLayoutProps {
     children: React.ReactNode;
-    session: Session;
 }
 
-export default function RootLayout({ children, session }: RootLayoutProps) {
+export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="en">
             <NextAuthProvider>

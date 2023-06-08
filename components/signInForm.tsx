@@ -6,8 +6,8 @@ import { IconUser, IconLock } from "@tabler/icons-react";
 import google from "../assets/images/logos/google_logo.webp";
 import Image from "next/image";
 import { useState } from "react";
-import { authenticate } from "@/utils/api_resources";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 interface FormInputProps {
     label: string;
@@ -36,7 +36,7 @@ function FormInput({ label, name, type, onChange, placeholder, icon }: FormInput
     );
 }
 
-function SignIn() {
+function SignInForm() {
     const router = useRouter();
     const [authData, setAuthData] = useState({
         email: "",
@@ -46,15 +46,24 @@ function SignIn() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const handleSubmit = async (e: React.SyntheticEvent) => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setLoading(true);
         setError(false);
         e.preventDefault();
         try {
-            let user = await authenticate(authData);
-            if (user.error) throw new Error(user.message);
+            let condition = e.currentTarget.name == "credentials";
+            console.log(condition);
+            const response = await signIn(e.currentTarget.name, {
+                email: authData.email,
+                password: authData.password,
+                redirect: false,
+                callbackUrl: "/dashboard",
+            });
+            console.log(response);
+            if (response?.error) throw new Error(response.error);
             router.push("/dashboard");
         } catch (error) {
+            console.log(error);
             setError(true);
         }
 
@@ -67,7 +76,7 @@ function SignIn() {
 
     return (
         <div>
-            <form className={styles.login_form} onSubmit={handleSubmit}>
+            <form className={styles.login_form}>
                 <FormInput
                     label="Correo electrónico"
                     name="email"
@@ -94,7 +103,7 @@ function SignIn() {
                     </Link>
                 </div>
                 <p className={styles.error}>{error && "Usuario y/o contraseña incorrectos"}</p>
-                <button className={styles.sign_in_btn} type="submit">
+                <button className={styles.sign_in_btn} type="submit" name="credentials" onClick={handleSubmit}>
                     {loading ? "loading" : "Iniciar sesión"}
                 </button>
                 <span>¿No tienes cuenta? </span>
@@ -106,7 +115,7 @@ function SignIn() {
                     <span>o</span>
                     <hr />
                 </div>
-                <button className={styles.google_btn}>
+                <button className={styles.google_btn} type="submit" name="google" onClick={handleSubmit}>
                     <Image width={25} height={25} src={google} alt="googleLogo" className={styles.google_logo}></Image>
                     <span>Continuar con Google</span>
                 </button>
@@ -115,4 +124,4 @@ function SignIn() {
     );
 }
 
-export default SignIn;
+export default SignInForm;

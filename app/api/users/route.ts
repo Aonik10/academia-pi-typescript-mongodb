@@ -17,18 +17,15 @@ export async function POST(req: Request) {
     try {
         await connectToDB();
 
-        const body = await req.json();
+        const { email, password, firstName, lastName } = await req.json();
 
         // check if a user already exists
-        const userFound = await User.findOne({ email: body.email });
+        const userFound = await User.findOne({ email });
 
         // if not, create a new user and save it
         if (!userFound) {
-            const newUser = await User.create({
-                email: body.email,
-                password: await encryptPassword(body.password),
-                image: body.image ?? "no-image",
-            });
+            console.log("voy a crear el user");
+            const newUser = await createUser({ email, password, firstName, lastName });
             return NextResponse.json({ message: "User created", user: newUser }, { status: 200 });
         }
 
@@ -42,4 +39,26 @@ export async function POST(req: Request) {
 const encryptPassword = async (password: string): Promise<string> => {
     const salt = await genSalt();
     return await hash(password, salt);
+};
+
+interface NewUser {
+    email: string;
+    password: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    image?: string | null;
+}
+
+export const createUser = async ({ email, password, image, firstName, lastName }: NewUser) => {
+    const newUser = await User.create({
+        email: email,
+        password: password ? await encryptPassword(password) : null,
+        firstName: firstName ?? "Alumno",
+        lastName: lastName,
+        image: image ?? "https://iili.io/H4uyVZF.webp",
+        inscriptions: [],
+        reffersCodes: [],
+    });
+    console.log(newUser);
+    return newUser;
 };

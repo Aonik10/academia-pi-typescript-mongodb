@@ -4,6 +4,7 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { connectToDB } from "./database";
+import { createUser } from "@/app/api/users/route";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -11,7 +12,8 @@ export const authOptions: NextAuthOptions = {
     },
     providers: [
         CredentialsProvider({
-            name: "Sign in",
+            id: "credentials",
+            name: "credentials",
             credentials: {
                 email: {
                     label: "Email",
@@ -27,48 +29,67 @@ export const authOptions: NextAuthOptions = {
                 }
 
                 const user = await User.findOne({ email: credentials.email });
-                console.log("el user es", user);
 
                 if (!user || !(await compare(credentials.password, user.password))) {
                     return null;
                 }
 
-                return {
-                    id: user._id,
-                    email: user.email,
-                    image: user.image,
-                    randomKey: "Hey cool",
-                };
+                return user;
             },
         }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID ?? "no-id", //change
             clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "no-secret", //change
+            authorization: {
+                //condición para preguntar siempre con que cuenta se desea iniciar sesion
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code",
+                },
+            },
         }),
     ],
     callbacks: {
-        session: ({ session, token }) => {
-            console.log("Session Callback", { session, token });
+        session: async ({ session, token }) => {
+            let user = session.user;
+            let nameArray = [user.firstName, user.lastName];
+            if (user.name) nameArray = user.name.split(" "); // el login viene de google
+
+            await connectToDB();
+
+            let existingUser = await User.findOne({ email: user.email });
+
+            if (!existingUser) {
+                const newUser = {
+                    email: user.email,
+                    password: null,
+                    firstName: nameArray[0],
+                    lastName: nameArray[nameArray.length - 1],
+                    image: user.image,
+                };
+                existingUser = await createUser(newUser);
+            }
+
             return {
                 ...session,
-                user: {
-                    ...session.user,
-                    id: token.id,
-                    randomKey: token.randomKey,
-                },
+                user: existingUser,
+                token: token,
             };
         },
         jwt: ({ token, user }) => {
-            console.log("JWT Callback", { token, user });
             if (user) {
                 const u = user as unknown as any;
+                console.log("first", u);
                 return {
                     ...token,
                     id: u.id,
-                    randomKey: u.randomKey,
                 };
             }
             return token;
         },
+    },
+    pages: {
+        signIn: "/login",
     },
 };

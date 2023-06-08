@@ -1,11 +1,17 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
 import styles from "./styles/page.module.scss";
-import SignIn from "@/components/signIn";
+import SignInForm from "@/components/signInForm";
+import { redirect } from "next/navigation";
 
-export default function Login() {
+export default async function Login() {
+    const session = await getServerSession(authOptions);
+    if (session?.user) redirect("/");
+
     return (
         <div className={styles.login}>
             <div>
-                <SignIn />
+                <SignInForm />
             </div>
         </div>
     );

@@ -1,0 +1,17 @@
+@import "@/utils/styles.scss";
+
+.inscription_btn {
+    @include resetBtn;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: $ds-yellow;
+    height: 30px;
+    width: 100%;
+
+    &:hover {
+        background-color: $ds-orange;
+        transition: background-color 500ms, color 500ms;
+        color: $white-full;
+    }
+}

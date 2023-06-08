@@ -1,32 +1,15 @@
 "use client";
 
-import { signIn, signOut } from "next-auth/react";
-import Link from "next/link";
+import styles from "./styles/buttons.module.scss";
 
 export const LoginButton = () => {
     return (
-        <button style={{ marginRight: 10 }} onClick={() => signIn()}>
+        <button style={{ marginRight: 10 }} onClick={() => console.log("hola")}>
             Sign in
         </button>
     );
 };
 
-export const RegisterButton = () => {
-    return (
-        <Link href="/register" style={{ marginRight: 10 }}>
-            Register
-        </Link>
-    );
-};
-
-export const LogoutButton = () => {
-    return (
-        <button style={{ marginRight: 10 }} onClick={() => signOut()}>
-            Sign Out
-        </button>
-    );
-};
-
-export const ProfileButton = () => {
-    return <Link href="/profile">Profile</Link>;
+export const InscriptionButton = () => {
+    return <button className={styles.inscription_btn}>Inscribirme</button>;
 };

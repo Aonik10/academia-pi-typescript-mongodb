@@ -8,10 +8,27 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: [true, "Username is required!"],
+        default: null,
+    },
+    firstName: {
+        type: String,
+        default: "Alumno",
+    },
+    lastName: {
+        type: String,
+        default: null,
     },
     image: {
         type: String,
+        default: "https://iili.io/H4uyVZF.webp",
+    },
+    inscriptions: {
+        type: [String],
+        default: null,
+    },
+    reffersCodes: {
+        type: [String],
+        default: null,
     },
 });
 
