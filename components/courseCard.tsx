@@ -2,6 +2,7 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import styles from "./styles/courseCard.module.scss";
 import { InscriptionButton } from "./buttons";
 import { CourseResponse } from "@/utils/interfaces";
+import CourseMode from "./courseMode";
 
 interface CourseCardProps {
     course: CourseResponse;
@@ -9,7 +10,6 @@ interface CourseCardProps {
 
 function CourseCard({ course }: CourseCardProps) {
     const { _id, title, image, livePrice, onSale, isLive, isOnDemand } = course;
-    console.log(course);
 
     return (
         <div className={styles.courseCard} key={_id}>
@@ -27,18 +27,12 @@ function CourseCard({ course }: CourseCardProps) {
                         {onSale ? <div className={styles.price}>{livePrice * (1 - onSale)} ARS</div> : ""}
                     </div>
                     <div>
-                        <div className={styles.live_container}>
-                            {isLive ? <IconCheck className={styles.check} /> : <IconX className={styles.cross} />}
-                            <div className={`${isLive ? styles.live : styles.not_live}`}>En vivo</div>
-                        </div>
-                        <div className={styles.live_container}>
-                            {isOnDemand ? <IconCheck className={styles.check} /> : <IconX className={styles.cross} />}
-                            <div className={`${isOnDemand ? styles.live : styles.not_live}`}>On demand</div>
-                        </div>
+                        <CourseMode mode={isLive} text="En vivo" />
+                        <CourseMode mode={isOnDemand} text="On demand" />
                     </div>
                 </div>
                 <div className={styles.inscription_btn}>
-                    <InscriptionButton />
+                    <InscriptionButton course={course} />
                 </div>
             </div>
         </div>

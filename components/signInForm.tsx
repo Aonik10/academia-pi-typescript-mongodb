@@ -52,14 +52,12 @@ function SignInForm() {
         e.preventDefault();
         try {
             let condition = e.currentTarget.name == "credentials";
-            console.log(condition);
             const response = await signIn(e.currentTarget.name, {
                 email: authData.email,
                 password: authData.password,
                 redirect: false,
                 callbackUrl: "/dashboard",
             });
-            console.log(response);
             if (response?.error) throw new Error(response.error);
             router.push("/dashboard");
         } catch (error) {

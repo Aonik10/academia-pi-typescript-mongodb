@@ -1,13 +1,16 @@
 "use client";
 
+import { CourseResponse } from "@/utils/interfaces";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface modalState {
     display: boolean;
+    currentCourse: CourseResponse | null;
 }
 
 const initialState: modalState = {
     display: false,
+    currentCourse: null,
 };
 
 export const modalSlice = createSlice({
@@ -17,9 +20,12 @@ export const modalSlice = createSlice({
         setDisplay: (state, action) => {
             state.display = action.payload;
         },
+        setCurrentCourse: (state, action) => {
+            state.currentCourse = action.payload;
+        },
     },
 });
 
-export const { setDisplay } = modalSlice.actions;
+export const { setDisplay, setCurrentCourse } = modalSlice.actions;
 
 export default modalSlice.reducer;

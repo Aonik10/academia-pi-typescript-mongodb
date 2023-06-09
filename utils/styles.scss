@@ -43,6 +43,10 @@ $ds-red: hsla(0°, 100%, 38%, 1); // #c20000
     align-items: center;
 }
 
+@mixin defaultBoxShadow {
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.8);
+}
+
 @mixin resetBtn {
     background-color: transparent;
     border: none;

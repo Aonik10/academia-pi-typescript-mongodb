@@ -24,7 +24,6 @@ export async function POST(req: Request) {
 
         // if not, create a new user and save it
         if (!userFound) {
-            console.log("voy a crear el user");
             const newUser = await createUser({ email, password, firstName, lastName });
             return NextResponse.json({ message: "User created", user: newUser }, { status: 200 });
         }
@@ -59,6 +58,5 @@ export const createUser = async ({ email, password, image, firstName, lastName }
         inscriptions: [],
         reffersCodes: [],
     });
-    console.log(newUser);
     return newUser;
 };

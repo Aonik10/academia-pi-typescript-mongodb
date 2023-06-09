@@ -80,7 +80,6 @@ export const authOptions: NextAuthOptions = {
         jwt: ({ token, user }) => {
             if (user) {
                 const u = user as unknown as any;
-                console.log("first", u);
                 return {
                     ...token,
                     id: u.id,
