@@ -9,14 +9,20 @@ const courseSchema = new Schema({
     description: {
         type: String,
         required: [true, "Description is required!"],
-        default: null,
     },
     livePrice: {
         type: Number,
         required: [true, "Price is required!"],
-        default: 0,
+    },
+    image: {
+        type: String,
+        required: [true, "Image is required!"],
     },
     onDemandPrice: {
+        type: Number,
+        default: 0,
+    },
+    onSale: {
         type: Number,
         default: 0,
     },
@@ -28,17 +34,13 @@ const courseSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    image: {
-        type: String,
-        default: null,
+    isActive: {
+        type: Boolean,
+        default: true,
     },
     duration: {
         type: String,
         default: null,
-    },
-    isActive: {
-        type: Boolean,
-        default: true,
     },
 });
 

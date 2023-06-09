@@ -1,8 +1,7 @@
 import "./globals.scss";
 import { Inter } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
-import type { Session } from "next-auth";
 import { NextAuthProvider } from "@/components/provider";
+import { ReduxProvider } from "./Redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +17,11 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="en">
-            <NextAuthProvider>
-                <body className={inter.className}>{children}</body>
-            </NextAuthProvider>
+            <ReduxProvider>
+                <NextAuthProvider>
+                    <body className={inter.className}>{children}</body>
+                </NextAuthProvider>
+            </ReduxProvider>
         </html>
     );
 }

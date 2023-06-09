@@ -15,23 +15,7 @@ async function DSHome() {
                 <hr className={styles.line} />
             </div>
             <div className={styles.courses_container}>
-                <div className={styles.current_courses}>
-                    <CourseCard
-                        image={"https://iili.io/H4AqliN.jpg"}
-                        title="Matematicas I"
-                        price={6000}
-                        isLive={true}
-                        isOnDemand={false}
-                    />
-                    <CourseCard
-                        image={"https://iili.io/H4AIg44.jpg"}
-                        title="Macroeconomia II"
-                        price={10000}
-                        onSale={0.2}
-                        isLive={false}
-                        isOnDemand={true}
-                    />
-                </div>
+                <div className={styles.current_courses}></div>
             </div>
         </div>
     );

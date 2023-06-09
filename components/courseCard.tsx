@@ -1,19 +1,18 @@
 import { IconCheck, IconX } from "@tabler/icons-react";
 import styles from "./styles/courseCard.module.scss";
 import { InscriptionButton } from "./buttons";
+import { CourseResponse } from "@/utils/interfaces";
 
 interface CourseCardProps {
-    image: string;
-    title: string;
-    price: number;
-    onSale?: number | null;
-    isLive: boolean;
-    isOnDemand: boolean;
+    course: CourseResponse;
 }
 
-function CourseCard({ image, title, price, onSale, isLive, isOnDemand }: CourseCardProps) {
+function CourseCard({ course }: CourseCardProps) {
+    const { _id, title, image, livePrice, onSale, isLive, isOnDemand } = course;
+    console.log(course);
+
     return (
-        <div className={styles.courseCard}>
+        <div className={styles.courseCard} key={_id}>
             <div className={styles.course_img_container}>
                 <div className={styles.course_img} style={{ backgroundImage: `url(${image})` }}></div>
             </div>
@@ -22,10 +21,10 @@ function CourseCard({ image, title, price, onSale, isLive, isOnDemand }: CourseC
                 <div className={styles.info_container}>
                     <div className={styles.prices}>
                         <div className={styles.price_container}>
-                            <div className={onSale ? styles.discounted : styles.price}>{price} ARS</div>
+                            <div className={onSale ? styles.discounted : styles.price}>{livePrice} ARS</div>
                             {onSale ? <div className={styles.sale_discount}>{onSale * 100}% OFF</div> : ""}
                         </div>
-                        {onSale ? <div className={styles.price}>{price * (1 - onSale)} ARS</div> : ""}
+                        {onSale ? <div className={styles.price}>{livePrice * (1 - onSale)} ARS</div> : ""}
                     </div>
                     <div>
                         <div className={styles.live_container}>

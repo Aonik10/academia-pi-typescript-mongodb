@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import styles from "./styles/loggedNavBar.module.scss";
 import { IconUser, IconLogout, IconWallet } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
+import { RootState } from "@/app/Redux/store";
+import { useSelector } from "react-redux";
+import styles from "./styles/loggedNavBar.module.scss";
+import Modal from "./modal";
 
 interface LoggedNavBarProps {
     image: string;
@@ -25,33 +28,37 @@ function DropDownItem({ content, icon, onClick }: DropDownItemProps) {
 }
 
 function LoggedNavBar({ image }: LoggedNavBarProps) {
+    const modal = useSelector((state: RootState) => state.modal.display);
     const [active, setActive] = useState(false);
 
     return (
-        <div className={styles.logged_nav_bar}>
-            <div className={styles.items_container}>
-                <div></div>
-                <button
-                    className={styles.profile_btn}
-                    style={{ backgroundImage: `url(${image})`, backgroundSize: "cover" }}
-                    onClick={() => setActive(!active)}
-                ></button>
-                <div className={`${styles.dropdown_menu} ${active ? styles.menu_active : ""}`}>
-                    <DropDownItem
-                        content="Mi perfil"
-                        icon={<IconUser className={styles.dropdown_item_logo} />}
-                        onClick={() => console.log("hola")}
-                    />
-                    <DropDownItem
-                        content="Mis pagos"
-                        icon={<IconWallet className={styles.dropdown_item_logo} />}
-                        onClick={() => console.log("hola")}
-                    />
-                    <DropDownItem
-                        content="Cerrar sesión"
-                        icon={<IconLogout className={styles.dropdown_item_logo} />}
-                        onClick={() => signOut({ callbackUrl: "/" })}
-                    />
+        <div>
+            {modal && <Modal />}
+            <div className={styles.logged_nav_bar}>
+                <div className={styles.items_container}>
+                    <div></div>
+                    <button
+                        className={styles.profile_btn}
+                        style={{ backgroundImage: `url(${image})`, backgroundSize: "cover" }}
+                        onClick={() => setActive(!active)}
+                    ></button>
+                    <div className={`${styles.dropdown_menu} ${active ? styles.menu_active : ""}`}>
+                        <DropDownItem
+                            content="Mi perfil"
+                            icon={<IconUser className={styles.dropdown_item_logo} />}
+                            onClick={() => console.log("hola")}
+                        />
+                        <DropDownItem
+                            content="Mis pagos"
+                            icon={<IconWallet className={styles.dropdown_item_logo} />}
+                            onClick={() => console.log("hola")}
+                        />
+                        <DropDownItem
+                            content="Cerrar sesión"
+                            icon={<IconLogout className={styles.dropdown_item_logo} />}
+                            onClick={() => signOut({ callbackUrl: "/" })}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

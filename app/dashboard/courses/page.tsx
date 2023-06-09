@@ -1,7 +1,10 @@
 import CourseCard from "@/components/courseCard";
 import styles from "./styles/page.module.scss";
+import { getCourses } from "@/utils/api_resources";
 
-function DSCourses() {
+async function DSCourses() {
+    const { courses } = await getCourses();
+
     return (
         <div className={styles.ds_courses}>
             <div className={styles.titles}>
@@ -10,21 +13,7 @@ function DSCourses() {
                 <hr className={styles.line} />
             </div>
             <div className={styles.current_courses}>
-                <CourseCard
-                    image={"https://iili.io/H4AqliN.jpg"}
-                    title="Matematicas I"
-                    price={6000}
-                    isLive={true}
-                    isOnDemand={false}
-                />
-                <CourseCard
-                    image={"https://iili.io/H4AIg44.jpg"}
-                    title="Macroeconomia II"
-                    price={10000}
-                    onSale={0.2}
-                    isLive={false}
-                    isOnDemand={true}
-                />
+                {courses.map((course) => course.isActive && <CourseCard course={course} />)}
             </div>
         </div>
     );

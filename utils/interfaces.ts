@@ -21,3 +21,22 @@ export interface UserResponse {
     username: string;
     password: string;
 }
+
+export interface CourseResponse {
+    _id: string;
+    title: string;
+    description: string;
+    livePrice: number;
+    image: string;
+    onDemandPrice: number;
+    onSale: number;
+    isLive: boolean;
+    isOnDemand: boolean;
+    isActive: boolean;
+    duration: string | null;
+    __v: number;
+}
+
+export interface CoursesResponse {
+    courses: CourseResponse[];
+}

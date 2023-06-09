@@ -1,0 +1,27 @@
+@import "@/utils/styles.scss";
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0, 0, 0, 0.3);
+    opacity: 1;
+    transition: opacity 1500ms
+}
+
+.no_modal {
+    opacity: 0;
+}
+
+.modal_container {
+    z-index: 3;
+    width: 400px;
+    height: 500px;
+    background-color: red;
+}

@@ -1,5 +1,12 @@
 @import "@/utils/styles.scss";
 
+.loading {
+    @include flexCentered;
+    color: $ds-light;
+    background-color: $ds-main-dark;
+    flex: 1;
+}
+
 .ds_courses {
     display: flex;
     flex-direction: column;
