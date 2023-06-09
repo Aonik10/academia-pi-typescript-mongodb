@@ -12,11 +12,34 @@ async function DSCourses() {
                 <p className={styles.subtitle}>Explora nuestros cursos, no dudes en consultarnos!</p>
                 <hr className={styles.line} />
             </div>
-            <div className={styles.current_courses}>
-                {courses.map((course) => course.isActive && <CourseCard course={course} />)}
+            <div className={styles.courses_container}>
+                <div className={styles.current_courses}>
+                    {courses.map((course) => course.isActive && <CourseCard course={course} />)}
+                </div>
             </div>
         </div>
     );
 }
 
 export default DSCourses;
+
+/*
+const DSCoursesNoSSR = dynamic(async () => CoursesContainer, {
+    ssr: false,
+});
+
+interface CoursesContainerProps {
+    data: CoursesResponse;
+}
+
+function CoursesContainer({ data }: CoursesContainerProps) {
+    const { courses } = data;
+    return (
+        <div className={styles.courses_container}>
+            <div className={styles.current_courses}>
+                {courses.map((course) => course.isActive && <CourseCard course={course} />)}
+            </div>
+        </div>
+    );
+}
+*/

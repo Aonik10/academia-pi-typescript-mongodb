@@ -14,11 +14,9 @@ export const LoginButton = () => {
 
 export const InscriptionButton = () => {
     const dispatch = useDispatch();
-    let currentDisplay = false;
 
     const handleClick = () => {
-        dispatch(setDisplay(!currentDisplay));
-        currentDisplay = !currentDisplay;
+        dispatch(setDisplay(true));
     };
 
     return (

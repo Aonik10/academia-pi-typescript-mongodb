@@ -10,18 +10,64 @@
     left: 0;
     width: 100%;
     height: 100%;
+    color: $ds-light;
+    font-family: 'Segoe UI';
     background-color: hsla(0, 0, 0, 0.3);
-    opacity: 1;
-    transition: opacity 1500ms
+    animation: fadeIn 500ms
 }
 
-.no_modal {
+.fadeOut {
     opacity: 0;
+    transition: opacity 500ms;
 }
 
 .modal_container {
     z-index: 3;
-    width: 400px;
+    width: 700px;
     height: 500px;
-    background-color: red;
+    margin-bottom: 100px;
+    padding: 0 20px 20px 20px;
+    background-color: $ds-alt-dark;
+    border-radius: 5px;
+    animation: fadeIn 500ms, moveDown 1000ms;
+}
+
+.modal_header {
+    @include flexCenteredSpaceBtwn;
+    padding: 15px;
+    border-bottom: 1px solid $ds-light;
+
+    .course_name {
+        font-size: 20px
+    }
+
+    .close_btn {
+        @include resetBtn;
+        color: $ds-light
+    }
+}
+
+.content_container {
+    margin: 15px 0;
+    opacity: 0.8;
+
+    .duration {
+        margin-bottom: 10px;
+    }
+
+    .about_course {
+        font-size: 18px;
+    }
+}
+
+
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes moveDown {
+    0% {margin-bottom: 250px}
+    100% {margin-bottom: 100px}
 }

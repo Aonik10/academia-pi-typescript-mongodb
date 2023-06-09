@@ -38,18 +38,34 @@
 .courses_container {
     overflow-y: scroll;
     flex: 1;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    // -ms-overflow-style: none;  /* IE and Edge */
+    // scrollbar-width: none;  /* Firefox */
+
+    // &::-webkit-scrollbar {
+    //     display: none;
+    // }
+
+    scrollbar-width: thin;
+    scrollbar-color: $ds-alt-dark transparent;
 
     &::-webkit-scrollbar {
-        display: none;
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $ds-alt-dark;
+        border-radius: 20px;
     }
 }
 
 .current_courses {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-	column-gap: 20px;
+	column-gap: 10px;
     row-gap: 20px;
 	grid-template-rows: auto;
 }
