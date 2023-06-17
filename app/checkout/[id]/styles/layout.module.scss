@@ -1,0 +1,15 @@
+@import "@/utils/styles.scss";
+
+.checkout {
+    display: flex;
+    justify-content: space-between;
+}
+
+.steps {
+    @include flexCentered;
+    flex: 1;
+    background-color: $ds-light;
+    // background-image: url("../../../../assets/images/checkout/checkout-bg3.jpg");
+    // background-size: cover;
+    // background-position: left;
+}

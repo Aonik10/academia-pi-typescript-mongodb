@@ -4,14 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDisplay } from "@/app/Redux/Features/counter/modalSlice";
 import { useState } from "react";
 import { IconX } from "@tabler/icons-react";
-import styles from "./styles/modal.module.scss";
 import { RootState } from "@/app/Redux/store";
 import CourseMode from "./courseMode";
+import { useRouter } from "next/navigation";
+import styles from "./styles/modal.module.scss";
 
 function Modal() {
+    const router = useRouter();
     const dispatch = useDispatch();
     const course = useSelector((state: RootState) => state.modal.currentCourse);
     const [exit, setExit] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const onInscription = (id: string) => {
+        setLoading(true);
+        router.push(`/checkout/${id}`);
+        setLoading(false);
+        dispatch(setDisplay(false));
+    };
 
     const closeModal = () => {
         setExit(true);
@@ -41,28 +51,40 @@ function Modal() {
                             <div className={styles.course_details}>
                                 <div>
                                     <h2 className={styles.subtitle}>Modalidades</h2>
-                                    {/* arreglar aca */}
+                                    {/* mejorar esto en algun momento  */}
+
                                     <div className={styles.modes_section}>
                                         <CourseMode mode={course.isLive} text="En vivo" />
                                         {course.isLive && (
                                             <div className={styles.price_container}>
-                                                <div className={styles.sale_discount}>{course.onSale * 100}% OFF</div>
-                                                <div className={course.onSale ? styles.discounted : styles.price}>
+                                                {course.onSale ? (
+                                                    <div className={styles.sale_discount}>
+                                                        {course.onSale * 100}% OFF
+                                                    </div>
+                                                ) : (
+                                                    ""
+                                                )}
+                                                <div className={course.onSale ? styles.discounted : ""}>
                                                     {course.livePrice} ARS
                                                 </div>
                                             </div>
                                         )}
                                     </div>
-                                    <div className={styles.price}>
-                                        <div>{course.livePrice * (1 - course.onSale)} ARS</div>
-                                    </div>
-                                    {/* arreglar aca */}
+                                    {course.onSale ? (
+                                        <div className={styles.price}>{course.livePrice * (1 - course.onSale)} ARS</div>
+                                    ) : (
+                                        ""
+                                    )}
+
+                                    {/* mejorar esto en algun momento */}
                                     <div className={styles.modes_section}>
                                         <CourseMode mode={course.isOnDemand} text="On demand" />
                                         {course.isOnDemand && <div>{course.onDemandPrice} ARS</div>}
                                     </div>
                                 </div>
-                                <button className={styles.inscription_btn}>Inscribirme</button>
+                                <button className={styles.inscription_btn} onClick={() => onInscription(course._id)}>
+                                    {loading ? "loading..." : "Inscribirme"}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -74,6 +96,7 @@ function Modal() {
                 </div>
             </div>
         );
+    else return null; //para que typescript no se queje
 }
 
 export default Modal;

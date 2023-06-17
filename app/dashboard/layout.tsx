@@ -10,7 +10,6 @@ interface DashboardLayoutProps {
 
 export default async function DashboardLayout({ children }: DashboardLayoutProps) {
     const session = await getServerSession(authOptions);
-    //console.log("layout", session);
 
     if (session) {
         const { user } = session;
@@ -19,7 +18,7 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
             <main className={styles.dashboard}>
                 <LoggedSideBar />
                 <div className={styles.right_side}>
-                    <LoggedNavBar image={user?.image ?? "https://iili.io/H4uyVZF.webp"} />
+                    <LoggedNavBar image={user.image} />
                     {children}
                 </div>
             </main>

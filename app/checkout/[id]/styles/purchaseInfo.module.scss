@@ -1,0 +1,14 @@
+@import "@/utils/styles.scss";
+
+.purchase_info {
+    height: 100vh;
+    width: 33.33%;
+    padding: 40px;
+    background-color: $ds-main-dark;
+    color: $ds-light
+}
+
+.resume_container {
+    font-size: 14px;
+    text-align: center;
+}
