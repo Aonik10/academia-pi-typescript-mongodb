@@ -1,5 +1,3 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/auth";
 import styles from "./styles/layout.module.scss";
 import PurchaseInfo from "./purchaseInfo";
 import { getCourseById } from "@/utils/api_resources";
@@ -12,7 +10,6 @@ interface CheckoutLayoutProps {
 }
 
 export default async function DashboardLayout({ children, params }: CheckoutLayoutProps) {
-    const session = await getServerSession(authOptions);
     const { course } = await getCourseById(params.id);
 
     return (

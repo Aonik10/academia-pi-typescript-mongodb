@@ -1,8 +1,26 @@
 @import "/utils/styles.scss";
 
 .personal_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $ds-main-dark;
+    height: 70vh;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.personal_info_form {
     width: 650px;
     padding: 40px;
+}
+
+.error {
+    color: red
 }
 
 .form_item {
@@ -13,11 +31,11 @@
     .label {
         font-size: 20px;
         margin-bottom: 8px;
-
-        span {
-            color: $ds-orange
-        }
     }
+}
+
+.required {
+    color: $ds-orange
 }
 
 .input_frame {
@@ -85,4 +103,14 @@
 .btn_next {
     color: $ds-light;
     background-color: $ds-main-dark
-} 
+}
+
+.loading {
+    background-color: $ds-alt-dark
+}
+
+.signal {
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 5px;
+}

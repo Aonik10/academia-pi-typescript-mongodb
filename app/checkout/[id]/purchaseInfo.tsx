@@ -1,9 +1,9 @@
-import { getCourseById } from "@/utils/api_resources";
 import styles from "./styles/purchaseInfo.module.scss";
-import { CourseResponse } from "@/utils/interfaces";
+import { getCourseById } from "@/utils/api_resources";
+import { CourseCreated } from "@/utils/interfaces";
 
 interface PurchaseInfoProps {
-    course: CourseResponse;
+    course: CourseCreated;
 }
 
 export default function PurchaseInfo({ course }: PurchaseInfoProps) {

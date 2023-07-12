@@ -8,6 +8,7 @@ import { RootState } from "@/app/Redux/store";
 import CourseMode from "./courseMode";
 import { useRouter } from "next/navigation";
 import styles from "./styles/modal.module.scss";
+import TagBadge from "./tagBadge";
 
 function Modal() {
     const router = useRouter();
@@ -44,7 +45,10 @@ function Modal() {
                         </div>
                         <div className={styles.content_container}>
                             <div className={styles.course_description}>
-                                <div className={styles.duration}>Duración: {course.duration ?? "a determinar"}</div>
+                                <div className={styles.professor}>Profesor: {course.professor}</div>
+                                <div className={styles.duration}>
+                                    Duración: {course.duration} {course.duration == 1 ? "clase" : "clases"}
+                                </div>
                                 <h2 className={styles.subtitle}>Sobre el curso</h2>
                                 <div className={styles.description}>{course.description}</div>
                             </div>
@@ -80,6 +84,11 @@ function Modal() {
                                     <div className={styles.modes_section}>
                                         <CourseMode mode={course.isOnDemand} text="On demand" />
                                         {course.isOnDemand && <div>{course.onDemandPrice} ARS</div>}
+                                    </div>
+                                    <div className={styles.tags}>
+                                        {course.tags.map((tag) => (
+                                            <TagBadge tag={tag} key={tag} />
+                                        ))}
                                     </div>
                                 </div>
                                 <button className={styles.inscription_btn} onClick={() => onInscription(course._id)}>

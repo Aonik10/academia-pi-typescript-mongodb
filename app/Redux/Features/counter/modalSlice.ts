@@ -1,11 +1,11 @@
 "use client";
 
-import { CourseResponse } from "@/utils/interfaces";
+import { CourseCreated } from "@/utils/interfaces";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface modalState {
     display: boolean;
-    currentCourse: CourseResponse | null;
+    currentCourse: CourseCreated | null;
 }
 
 const initialState: modalState = {

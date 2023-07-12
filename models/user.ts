@@ -1,14 +1,19 @@
 import { Schema, model, models } from "mongoose";
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
     email: {
         type: String,
         unique: [true, "Email already exists!"],
         required: [true, "Email is required!"],
+        match: [
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            "Please fill a valid email address",
+        ],
     },
     password: {
         type: String,
         default: null,
+        minLength: 8,
     },
     firstName: {
         type: String,
@@ -18,20 +23,38 @@ const UserSchema = new Schema({
         type: String,
         default: null,
     },
+    phoneNumber: {
+        type: String,
+        default: null,
+    },
+    id_document: {
+        type: Number,
+        match: [/^[0-9]{8,9}$/],
+    },
+    address: {
+        type: String,
+        default: null,
+    },
     image: {
         type: String,
         default: "https://iili.io/H4uyVZF.webp",
     },
-    inscriptions: {
-        type: [String],
-        default: null,
+    isActive: {
+        type: Boolean,
+        default: true,
     },
     reffersCodes: {
         type: [String],
         default: null,
     },
+    inscriptions: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Inscription",
+        },
+    ],
 });
 
-const User = models.User || model("User", UserSchema); // Look into the model User, if it is there, if not, create a new model
+const User = models.User || model("User", userSchema); // Look into the model User, if it is there, if not, create a new model
 
 export default User;

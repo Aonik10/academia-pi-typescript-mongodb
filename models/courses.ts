@@ -1,4 +1,5 @@
-import { Schema, model, models } from "mongoose";
+import mongoose from "mongoose";
+const { Schema, SchemaTypes, model, models } = mongoose;
 
 const courseSchema = new Schema({
     title: {
@@ -12,16 +13,22 @@ const courseSchema = new Schema({
     },
     livePrice: {
         type: Number,
+        default: 0,
+    },
+    onDemandPrice: {
+        type: Number,
         required: [true, "Price is required!"],
     },
     image: {
         type: String,
         required: [true, "Image is required!"],
     },
-    onDemandPrice: {
-        type: Number,
-        default: 0,
-    },
+    tags: [
+        {
+            type: String,
+            default: null,
+        },
+    ],
     onSale: {
         type: Number,
         default: 0,
@@ -39,9 +46,23 @@ const courseSchema = new Schema({
         default: true,
     },
     duration: {
+        // number of classes
+        type: Number,
+        default: null,
+    },
+    professor: {
         type: String,
         default: null,
     },
+    liveDate: {
+        type: Date,
+    },
+    inscriptions: [
+        {
+            type: SchemaTypes.ObjectId,
+            ref: "Inscription",
+        },
+    ],
 });
 
 const Course = models.Course || model("Course", courseSchema);

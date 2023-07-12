@@ -22,21 +22,63 @@ export interface UserResponse {
     password: string;
 }
 
-export interface CourseResponse {
+//new interfaces
+
+export interface UserCreate {
+    email: string;
+    firstName: string;
+    lastName?: string;
+    password?: string;
+    phoneNumber?: string;
+    id_document?: string;
+    image?: string;
+    address?: string;
+    isActive?: boolean;
+}
+
+export type UserUpdate = Partial<UserCreate>;
+
+export interface UserCreated extends UserCreate {
     _id: string;
-    title: string;
-    description: string;
-    livePrice: number;
-    image: string;
-    onDemandPrice: number;
-    onSale: number;
-    isLive: boolean;
-    isOnDemand: boolean;
-    isActive: boolean;
-    duration: string | null;
+    reffersCodes: [];
+    inscriptions: [];
     __v: number;
 }
 
-export interface CoursesResponse {
-    courses: CourseResponse[];
+export interface CourseCreate {
+    title: string;
+    description: string;
+    livePrice?: number;
+    onDemandPrice: number;
+    image: string;
+    tags?: string[];
+    onSale?: number;
+    isLive?: boolean;
+    isOnDemand?: boolean;
+    isActive?: boolean;
+    duration?: number;
+    professor?: string;
+    liveDate?: string;
+}
+
+export type CourseUpdate = Partial<CourseCreate>;
+
+export interface CourseCreated extends Required<CourseCreate> {
+    _id: string;
+    inscriptions: [];
+    __v: number;
+}
+
+export interface GetCoursesResponse {
+    courses: CourseCreated[];
+}
+
+export interface getCourseById {
+    course: CourseCreated;
+}
+
+export interface UserUpdateResponse {
+    message: string;
+    user?: UserCreated;
+    error?: string;
 }

@@ -1,9 +1,10 @@
 import User from "@/models/user";
 import { connectToDB } from "@/utils/database";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { genSalt, hash } from "bcrypt-ts";
+import { UserUpdate } from "@/utils/interfaces";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
     try {
         await connectToDB();
         const users = await User.find();
@@ -13,7 +14,7 @@ export async function GET(req: Request) {
     }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         await connectToDB();
 
@@ -32,6 +33,33 @@ export async function POST(req: Request) {
     } catch (error) {
         console.log(error);
         return NextResponse.json({ message: "An error ocurred", error: error }, { status: 400 });
+    }
+}
+
+export async function PUT(req: NextRequest) {
+    try {
+        connectToDB();
+        const body = (await req.json()) as UserUpdate;
+        const id = req.nextUrl.searchParams.get("id");
+
+        // find user
+        const userFound = await User.findByIdAndUpdate(id, body, { new: true });
+        if (!userFound) return NextResponse.json({ message: "User not found" }, { status: 404 });
+        return NextResponse.json(
+            {
+                message: "User updated successfully",
+                user: userFound,
+            },
+            { status: 200 }
+        );
+    } catch (error: any) {
+        return NextResponse.json(
+            {
+                message: "An error ocurred",
+                error: error.message,
+            },
+            { status: 500 }
+        );
     }
 }
 

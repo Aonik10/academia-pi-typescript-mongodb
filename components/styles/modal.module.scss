@@ -75,6 +75,10 @@
     opacity: 0.8;
 }
 
+.professor {
+    
+}
+
 .duration {
     margin-bottom: 10px;
 }
@@ -123,7 +127,11 @@
     opacity: 0.5;
 }
 
-
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px
+}
 
 
 .inscription_btn {
