@@ -1,0 +1,30 @@
+@import "/utils/styles.scss";
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $ds-main-dark;
+    height: 70vh;
+    width: 650px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h1 {
+        margin: 0 10px 0 0
+    }
+}
+
+.title {
+    font-weight: 700;
+    font-size: 40px; 
+}
+
+.next {
+    font-size: 25px; 
+    opacity: 0.3;
+}

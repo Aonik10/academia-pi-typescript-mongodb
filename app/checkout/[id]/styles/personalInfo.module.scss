@@ -1,17 +1,8 @@
 @import "/utils/styles.scss";
 
-.personal_info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: $ds-main-dark;
-    height: 70vh;
-}
-
-.title {
-    font-weight: 700;
-    font-size: 40px;
-    margin-bottom: 20px;
+.hide {
+    opacity: 0;
+    transition: opacity 500ms
 }
 
 .personal_info_form {
@@ -20,6 +11,8 @@
 }
 
 .error {
+    font-size: 14px;
+    height: 15px;
     color: red
 }
 

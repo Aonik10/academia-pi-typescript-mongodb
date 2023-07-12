@@ -1,0 +1,104 @@
+@import "/utils/styles.scss";
+
+.hide {
+    opacity: 0;
+    transition: opacity 500ms
+}
+
+.payment_methods_form {
+    height: 500px;
+}
+
+.form_items {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer
+}
+
+.form_item {
+    display: flex;
+    padding: 20px;
+    height: 140px;
+    font-style: italic;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.selected {
+    border: 3px solid $ds-orange;
+    border-radius: 10px;
+}
+
+.item_input {
+    margin-right: 20px;
+}
+
+.item_content_container {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.item_content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.item_subcontent {
+    display: flex;
+    align-items: center;
+}
+
+.recommended {
+    color: $ds-orange;
+    font-weight: 700;
+}
+
+.warning {
+    color: $ds-main-dark;
+    opacity: 0.6;
+}
+
+.mp_image {
+    background-image: url("../../../../assets/images/checkout/metodos-de-pago.png");
+    background-size: cover;
+    height: 50px;
+    width: 200px;
+}
+
+.bank_image {
+    background-image: url("../../../../assets/images/checkout/bank.png");
+    background-size: cover;
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}
+
+.btns {
+    @include flexCenteredSpaceBtwn;
+    margin-top: 60px
+}
+
+.btn {
+    @include resetBtn;
+    font-size: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    width: 130px;
+}
+
+.btn_back {
+    @include resetBtn;
+    border: 1px solid $ds-main-dark;
+    color: $ds-main-dark
+}
+
+.btn_next {
+    color: $ds-light;
+    background-color: $ds-main-dark
+}
+
+.loading {
+    background-color: $ds-alt-dark
+}

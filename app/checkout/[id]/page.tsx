@@ -3,6 +3,7 @@ import { UserCreated } from "@/utils/interfaces";
 import PersonalInformation from "./personalInfo";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth";
+import Main from "./main";
 
 interface getServerSessionReturns {
     user: UserCreated;
@@ -13,7 +14,7 @@ export default async function Page() {
 
     return (
         <div>
-            <PersonalInformation user={JSON.parse(JSON.stringify(session.user))} />
+            <Main user={JSON.parse(JSON.stringify(session.user))} />
         </div>
     );
 }

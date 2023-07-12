@@ -3,66 +3,59 @@
 import styles from "./styles/personalInfo.module.scss";
 import { useState } from "react";
 import { UserCreated } from "@/utils/interfaces";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { updateUser } from "@/utils/api_resources";
+import { useForm } from "react-hook-form";
 
 interface PersonalInformationProps {
     user: UserCreated;
+    next: (value: "info" | "payment") => void;
 }
 
-interface FormInputProps {
+interface FormInputPropsNew {
     label: string;
-    name: string;
-    placeholder?: string;
-    required: boolean;
-    value: string;
-    onChange: (value: string) => void;
+    signal?: boolean;
+    input: React.ReactNode;
 }
 
-function FormInput({ label, name, placeholder, required, value, onChange }: FormInputProps) {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(e.target.value);
-    };
-
+function FormInput({ label, signal, input }: FormInputPropsNew) {
     return (
         <div className={styles.form_item}>
             <label className={styles.label}>
-                {label} <span className={styles.required}>{required && "*"}</span>
+                {label} <span className={styles.required}>{signal && " *"}</span>
             </label>
-            <span className={styles.input_frame}>
-                <input
-                    type="text"
-                    name={name}
-                    value={value}
-                    onChange={handleChange}
-                    className={styles.input_text}
-                    placeholder={placeholder}
-                    required={required}
-                />
-            </span>
+            <span className={styles.input_frame}>{input}</span>
         </div>
     );
 }
 
-export default function PersonalInformation({ user }: PersonalInformationProps) {
-    const [currentUser, setcurrentUser] = useState({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        phoneNumber: user.phoneNumber,
-        id_document: user.id_document,
-        address: user.address,
+export default function PersonalInformation({ user, next }: PersonalInformationProps) {
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+    } = useForm({
+        defaultValues: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
+            id_document: user.id_document,
+            address: user.address,
+        },
     });
+
     const [loading, setLoading] = useState(false);
+    const [hide, setHide] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const pathname = usePathname();
 
-    const handleSubmit = async () => {
+    const onSubmit = async (data: any) => {
         setLoading(true);
         try {
-            const response = await updateUser(user._id, currentUser);
+            const response = await updateUser(user._id, data);
             if (response.error) throw new Error(response.message);
-            router.push(pathname + "/payment");
+            setHide(true);
+            next("payment");
         } catch (error: any) {
             setError(error.message);
         }
@@ -70,57 +63,103 @@ export default function PersonalInformation({ user }: PersonalInformationProps) 
     };
 
     return (
-        <div className={styles.personal_info}>
-            <div>
-                <h1 className={styles.title}>Información Personal</h1>
-                <p>Por favor, revisa que la información requerida sea correcta</p>
-            </div>
-            <form className={styles.personal_info_form}>
-                <div>
-                    {error && <p className={styles.error}>{error}</p>}
-                    <div className={styles.form_row}>
-                        <FormInput
-                            label="Nombre"
-                            name="firstName"
-                            required={true}
-                            value={currentUser.firstName}
-                            onChange={(value) => setcurrentUser({ ...currentUser, firstName: value })}
-                        />
-                        <FormInput
-                            label="Apellido"
-                            name="lastName"
-                            required={true}
-                            value={currentUser.lastName ?? ""}
-                            onChange={(value) => setcurrentUser({ ...currentUser, lastName: value })}
-                        />
-                    </div>
-
-                    <div className={styles.form_row}>
-                        <FormInput
-                            label="Telefono"
-                            name="phoneNumber"
-                            required={true}
-                            value={currentUser.phoneNumber ?? ""}
-                            onChange={(value) => setcurrentUser({ ...currentUser, phoneNumber: value })}
-                        />
-                        <FormInput
-                            label="DNI"
-                            name="dni"
-                            required={true}
-                            value={currentUser.id_document ?? ""}
-                            onChange={(value) => setcurrentUser({ ...currentUser, id_document: value })}
-                        />
-                    </div>
-                    <div>
-                        <FormInput
-                            label="Dirección"
-                            name="address"
-                            required={false}
-                            value={currentUser.address ?? ""}
-                            onChange={(value) => setcurrentUser({ ...currentUser, address: value })}
-                        />
-                    </div>
+        <div>
+            <form className={`${styles.personal_info_form} ${hide && styles.hide}`} onSubmit={handleSubmit(onSubmit)}>
+                <div className={styles.form_row}>
+                    <FormInput
+                        label="Nombre"
+                        signal={true}
+                        input={
+                            <div>
+                                <input
+                                    className={styles.input_text}
+                                    type="text"
+                                    {...register("firstName", {
+                                        required: true,
+                                        pattern: /^[a-zA-Z]+$/,
+                                    })}
+                                />
+                                <p className={styles.error}>
+                                    {errors.firstName?.type == "pattern" && "Debe contener solo letras"}
+                                </p>
+                            </div>
+                        }
+                    />
+                    <FormInput
+                        label="Apellido"
+                        signal={true}
+                        input={
+                            <div>
+                                <input
+                                    className={styles.input_text}
+                                    type="text"
+                                    {...register("lastName", {
+                                        required: true,
+                                        pattern: /^[a-zA-Z]+$/,
+                                    })}
+                                />
+                                <p className={styles.error}>
+                                    {errors.lastName?.type == "pattern" && "Debe contener solo letras"}
+                                </p>
+                            </div>
+                        }
+                    />
                 </div>
+                <div className={styles.form_row}>
+                    <FormInput
+                        label="Telefono"
+                        signal={true}
+                        input={
+                            <div>
+                                <input
+                                    className={styles.input_text}
+                                    type="text"
+                                    {...register("phoneNumber", {
+                                        required: true,
+                                        pattern: /^[0-9]+$/,
+                                        minLength: 6,
+                                    })}
+                                />
+                                <p className={styles.error}>
+                                    {errors.phoneNumber?.type == "pattern" && "Debe contener solo números"}
+                                    {errors.phoneNumber?.type == "minLength" && "Al menos 6 digitos"}
+                                </p>
+                            </div>
+                        }
+                    />
+                    <FormInput
+                        label="DNI"
+                        signal={true}
+                        input={
+                            <div>
+                                <input
+                                    className={styles.input_text}
+                                    type="text"
+                                    {...register("id_document", {
+                                        required: true,
+                                        pattern: /^[0-9]+$/,
+                                        minLength: 8,
+                                    })}
+                                />
+                                <p className={styles.error}>
+                                    {errors.id_document?.type == "pattern" && "Debe contener solo números"}
+                                    {errors.id_document?.type == "minLength" && "Al menos 8 numeros"}
+                                </p>
+                            </div>
+                        }
+                    />
+                </div>
+                <div>
+                    <FormInput
+                        label="Dirección"
+                        input={
+                            <div>
+                                <input className={styles.input_text} type="text" {...register("address", {})} />
+                            </div>
+                        }
+                    />
+                </div>
+
                 <div className={styles.btns}>
                     <button
                         type="button"
@@ -132,8 +171,7 @@ export default function PersonalInformation({ user }: PersonalInformationProps) 
                     </button>
                     <button
                         className={`${styles.btn_next} ${styles.btn} ${loading ? styles.loading : ""}`}
-                        type="button"
-                        onClick={handleSubmit}
+                        type="submit"
                         disabled={loading}
                     >
                         {loading ? "Loading..." : "Siguiente"}
