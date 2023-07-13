@@ -66,7 +66,7 @@ export default function PaymentMethods({ next }: PaymentMethodProps) {
                             <label className={styles.item_subcontent}>
                                 <div className={styles.bank_image}></div>
                                 Depósito o transferencia bancaria
-                                <span className={styles.warning}>{" (aprobación de 24 a 48 hs)"}</span>
+                                <span className={styles.warning}>(aprobación de 24 a 48 hs)</span>
                             </label>
                         </div>
                     </div>
@@ -86,7 +86,7 @@ export default function PaymentMethods({ next }: PaymentMethodProps) {
                     type="submit"
                     disabled={loading}
                 >
-                    {loading ? "Loading..." : "Siguiente"}
+                    {loading ? "Loading..." : "Ir al pago"}
                 </button>
             </div>
         </form>

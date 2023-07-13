@@ -3,12 +3,62 @@
 .purchase_info {
     height: 100vh;
     width: 33.33%;
-    padding: 40px;
+    padding: 40px 60px;
     background-color: $ds-main-dark;
     color: $ds-light
 }
 
 .resume_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 60vh;
+
+    h1 {
+        font-size: 30px;
+        text-align: center;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    font-size: 15px
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 700;
+    color: $ds-orange
+}
+
+.date {
+    opacity: 0.8;
     font-size: 14px;
-    text-align: center;
+}
+
+.live_price {
+    font-size: 24px;
+}
+
+.payment_resume {
+
+    h2 {
+        margin-bottom: 10px;
+    }
+}
+
+.payment_item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.discount {
+    color: $ds-orange
+}
+
+.break_line {
+    border-bottom: 1px solid $ds-light;
+    margin: 5px 0;
 }
