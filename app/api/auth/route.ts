@@ -1,5 +1,5 @@
-import User from "@/models/user";
-import { connectToDB } from "@/utils/database";
+import User from "@/database/models/user";
+import { connectToDB } from "@/database/database";
 import { NextResponse } from "next/server";
 import { compare } from "bcrypt-ts";
 

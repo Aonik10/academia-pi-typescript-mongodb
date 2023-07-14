@@ -1,7 +1,7 @@
 import "./globals.scss";
 import { Inter } from "next/font/google";
 import { NextAuthProvider } from "@/components/provider";
-import { ReduxProvider } from "./Redux/provider";
+import { ReduxProvider } from "@/redux/ReduxProvider"
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,8 +1,8 @@
-import { IconCheck, IconX } from "@tabler/icons-react";
 import styles from "./styles/courseCard.module.scss";
 import { InscriptionButton } from "./buttons";
 import { CourseCreated } from "@/utils/interfaces";
 import CourseMode from "./courseMode";
+import { SERVER_URL } from "@/utils/utils";
 
 interface CourseCardProps {
     course: CourseCreated;
@@ -10,7 +10,7 @@ interface CourseCardProps {
 
 function CourseCard({ course }: CourseCardProps) {
     const { _id, title, image, livePrice, onSale, isLive, isOnDemand } = course;
-    const dev_server = "http://localhost:3001/api/images?imageName=";
+    const dev_server = SERVER_URL + "/images?imageName=";
 
     return (
         <div className={styles.courseCard} key={_id}>

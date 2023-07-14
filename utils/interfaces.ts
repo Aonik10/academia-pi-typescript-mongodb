@@ -15,18 +15,17 @@ export interface UserRequest {
     remember: boolean;
 }
 
-export interface UserResponse {
-    _id: string;
-    email: string;
-    username: string;
-    password: string;
+export interface GetUsersResponse {
+    message: string,
+    users?: UserCreated[]
+    error?: string
 }
 
 //new interfaces
 
 export interface UserCreate {
     email: string;
-    firstName: string;
+    firstName?: string;
     lastName?: string;
     password?: string;
     phoneNumber?: string;
@@ -73,12 +72,15 @@ export interface GetCoursesResponse {
     courses: CourseCreated[];
 }
 
-export interface getCourseById {
-    course: CourseCreated;
+interface ApiResponse {
+    message: string;
+    error?: string
 }
 
-export interface UserUpdateResponse {
-    message: string;
+export interface UserResponse extends ApiResponse {
     user?: UserCreated;
-    error?: string;
+}
+
+export interface CourseResponse extends ApiResponse {
+    course?: CourseCreated
 }

@@ -1,9 +1,9 @@
-import User from "@/models/user";
+import User from "@/database/models/user";
 import { compare } from "bcrypt-ts";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { connectToDB } from "./database";
+import { connectToDB } from "@/database/database";
 import { createUser } from "@/app/api/users/route";
 
 export const authOptions: NextAuthOptions = {

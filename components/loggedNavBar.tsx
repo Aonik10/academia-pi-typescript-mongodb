@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { IconUser, IconLogout, IconWallet } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
-import { RootState } from "@/app/Redux/store";
+import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import styles from "./styles/loggedNavBar.module.scss";
 import Modal from "./modal";

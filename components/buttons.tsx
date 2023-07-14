@@ -2,7 +2,7 @@
 
 import styles from "./styles/buttons.module.scss";
 import { useDispatch } from "react-redux";
-import { setDisplay, setCurrentCourse } from "@/app/Redux/Features/counter/modalSlice";
+import { setDisplay, setCurrentCourse } from "@/redux/features/modalSlice";
 import { CourseResponse } from "@/utils/interfaces";
 
 export const LoginButton = () => {

@@ -1,10 +1,10 @@
 "use client";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setDisplay } from "@/app/Redux/Features/counter/modalSlice";
+import { setDisplay } from "@/redux/features/modalSlice";
 import { useState } from "react";
 import { IconX } from "@tabler/icons-react";
-import { RootState } from "@/app/Redux/store";
+import { RootState } from "@/redux/store";
 import CourseMode from "./courseMode";
 import { useRouter } from "next/navigation";
 import styles from "./styles/modal.module.scss";

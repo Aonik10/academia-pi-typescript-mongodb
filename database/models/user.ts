@@ -1,4 +1,5 @@
-import { Schema, model, models } from "mongoose";
+import mongoose from "mongoose";
+const { Schema, model, models } = mongoose;
 
 const userSchema = new Schema({
     email: {
@@ -29,7 +30,7 @@ const userSchema = new Schema({
     },
     id_document: {
         type: Number,
-        match: [/^[0-9]{8,9}$/],
+        default: null,
     },
     address: {
         type: String,
@@ -55,6 +56,6 @@ const userSchema = new Schema({
     ],
 });
 
-const User = models.User || model("User", userSchema); // Look into the model User, if it is there, if not, create a new model
+const User = models?.User || model("User", userSchema);
 
 export default User;

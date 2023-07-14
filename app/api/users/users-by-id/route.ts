@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { connectToDB } from "@/database/database";
-import Course from "@/database/models/course";
+import User from "@/database/models/user";
 
 export async function GET(req: NextRequest) {
     // esta ruta no me gusta, me imagino que deberia haber una carpeta [id] o algo por el estilo
@@ -9,11 +9,11 @@ export async function GET(req: NextRequest) {
     try {
         const id = req.nextUrl.searchParams.get("id");
         await connectToDB();
-        const courseFound = await Course.findById(id);
-        if (!courseFound) {
-            return NextResponse.json({message: "Course not found"}, {status: 404})
+        const userFound = await User.findById(id);
+        if (!userFound) {
+            return NextResponse.json({message: "User not found"}, {status: 404})
         }
-        return NextResponse.json({message: "Success", course: courseFound }, {status: 200});
+        return NextResponse.json({message: "Success", user: userFound }, {status: 200});
     } catch (error: any) {
         return NextResponse.json({ message: "An error ocurred", error: error.message }, {status: 400});
     }

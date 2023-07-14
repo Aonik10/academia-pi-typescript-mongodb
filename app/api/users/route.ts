@@ -1,16 +1,30 @@
-import User from "@/models/user";
-import { connectToDB } from "@/utils/database";
 import { NextRequest, NextResponse } from "next/server";
+
+import User from "@/database/models/user";
+import { connectToDB } from "@/database/database";
 import { genSalt, hash } from "bcrypt-ts";
-import { UserUpdate } from "@/utils/interfaces";
+import { UserCreated, UserUpdate } from "@/utils/interfaces";
 
 export async function GET(req: NextRequest) {
     try {
-        await connectToDB();
-        const users = await User.find();
-        return NextResponse.json({ users });
-    } catch (error) {
-        return NextResponse.json({ message: "An error ocurred" });
+        connectToDB();
+        const stringFilter = req.nextUrl.searchParams.get("stringFilter");
+
+        const re = new RegExp(`${stringFilter}`, "i");
+
+        let users = (await User.find({
+            $or: [
+                { email: { $regex: re } },
+                { firstName: { $regex: re } },
+                { lastName: { $regex: re } },
+                { phoneNumber: { $regex: re } },
+                //{ id_document: { $regex: re } }
+            ],
+        })) as UserCreated[];
+
+        return NextResponse.json({ users }, { status: 200 });
+    } catch (error: any) {
+        return NextResponse.json({ message: "Something went wrong", error: error.message });
     }
 }
 
@@ -44,7 +58,11 @@ export async function PUT(req: NextRequest) {
 
         // find user
         const userFound = await User.findByIdAndUpdate(id, body, { new: true });
-        if (!userFound) return NextResponse.json({ message: "User not found" }, { status: 404 });
+        if (!userFound)
+            return NextResponse.json(
+                { message: "User not found" },
+                { status: 404 }
+            );
         return NextResponse.json(
             {
                 message: "User updated successfully",
@@ -63,6 +81,27 @@ export async function PUT(req: NextRequest) {
     }
 }
 
+export async function DELETE(req: NextRequest) {
+    try {
+        connectToDB();
+        const id = req.nextUrl.searchParams.get("id");
+        const userDeleted = await User.findByIdAndDelete(id);
+    
+        if (!userDeleted) {
+            return NextResponse.json({message: "User not found"}, {status: 404})
+        }
+    
+        return NextResponse.json(
+            { message: "User deleted successfully", user: userDeleted },
+            { status: 200 }
+        );
+    } catch (error: any) {
+        return NextResponse.json({message: "An error ocurred", error: error.message}, {status: 400})
+    }
+   
+}
+
+
 const encryptPassword = async (password: string): Promise<string> => {
     const salt = await genSalt();
     return await hash(password, salt);
@@ -78,10 +117,10 @@ interface NewUser {
 
 export const createUser = async ({ email, password, image, firstName, lastName }: NewUser) => {
     const newUser = await User.create({
-        email: email,
+        email: email.toLowerCase(),
         password: password ? await encryptPassword(password) : null,
         firstName: firstName ?? "Alumno",
-        lastName: lastName,
+        lastName: lastName ?? "",
         image: image ?? "https://iili.io/H4uyVZF.webp",
         inscriptions: [],
         reffersCodes: [],
